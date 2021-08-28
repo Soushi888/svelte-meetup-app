@@ -18,10 +18,9 @@
         <p>{description}</p>
     </div>
     <footer>
-        <!--        <a href="mailto:{contactEmail}">Contact</a><br>-->
         <Button href="mailto:{contactEmail}" caption="Contact"/>
-        <Button caption="Show Details"/>
         <Button caption="Favorite" mode="outline"/>
+        <Button caption="Show Details"/>
     </footer>
 </article>
 
