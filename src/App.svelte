@@ -1,8 +1,16 @@
 <script>
   import Header from "./UI/Header.svelte";
-  import MeetupItem from "./Meetups/MeetupItem.svelte";
+  import MeetupGrid from "./Meetups/MeetupGrid.svelte";
+  import TextInput from "./UI/TextInput.svelte";
 
-  const meetups = [
+  let title = "";
+  let subtitle = "";
+  let description = "";
+  let imageUrl = "";
+  let address = "";
+  let email = "";
+
+  let meetups = [
     {
       id: "m1",
       title: "Coding Bootcamp",
@@ -22,18 +30,52 @@
       contactEmail: 'swim@test.com'
     }
   ]
+
+  function addMeetup() {
+    const newMeetup = {
+      id: Math.random().toString(),
+      title,
+      subtitle,
+      description,
+      imageUrl,
+      address,
+      contactEmail: email
+    };
+    meetups = [newMeetup, ...meetups];
+
+    console.log(meetups)
+  }
 </script>
+
 
 <Header/>
 
-<section class="meetups">
-    {#each meetups as meetup, i}
-        <MeetupItem data={meetup}/>
-    {/each}
-</section>
+<main>
+    <form on:submit|preventDefault={addMeetup}>
+        <TextInput id="title" label="Title" value="{title}" on:input={(evt) => title = evt.target.value}/>
+        <TextInput id="subtitle" label="Subtitle" value={subtitle} on:input={(evt) => subtitle = evt.target.value}/>
+        <TextInput id="address" label="Address" value={address} on:input={(evt) => address = evt.target.value}/>
+        <TextInput id="imageUrl" label="Image URL"
+                   value={imageUrl} on:input={(evt) => imageUrl = evt.target.value}/>
+        <TextInput id="email" label="Email" value={email} type="email" on:input={(evt) => email = evt.target.value}/>
+        <TextInput id="description" label="Description" controlType="textarea"
+                   value={description} on:input={(evt) => description = evt.target.value}/>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <MeetupGrid {meetups}/>
+</main>
+
 
 <style>
-    .meetups {
+    main {
         margin-top: 4.5rem;
+    }
+
+    form {
+        width: 30rem;
+        max-width: 90%;
+        margin: auto;
     }
 </style>
