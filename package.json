@@ -17,6 +17,8 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "sirv-cli": "^1.0.0"
+    "prettier": "^2.3.2",
+    "sirv-cli": "^1.0.0",
+    "prettier-plugin-svelte": "^2.2.0"
   }
 }
