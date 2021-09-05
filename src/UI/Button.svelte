@@ -2,7 +2,6 @@
   export let type = "button", mode = "", href = "", color = null;
 </script>
 
-
 {#if (href)}
     <a {href}>
         <slot/>
