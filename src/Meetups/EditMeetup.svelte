@@ -22,12 +22,15 @@
       imageUrl,
       address,
       email
-    })
+    });
+  }
+
+  function cancel() {
+    dispatch('cancel');
   }
 </script>
 
 <Modal title="Edit Meetup" on:cancel>
-    <slot/>
     <form on:submit|preventDefault={submitForm}>
         <TextInput
                 id="title"
@@ -67,9 +70,14 @@
                 value={description}
                 on:input={(evt) => (description = evt.target.value)}
         />
-
-        <Button type="submit">Save</Button>
     </form>
+
+    <slot/>
+
+    <div slot="footer">
+        <Button on:click={submitForm}>Save</Button>
+        <Button on:click={cancel} mode="outline">Cancel</Button>
+    </div>
 </Modal>
 
 <style>
