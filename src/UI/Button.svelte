@@ -1,12 +1,16 @@
 <script>
-  export let type = "button", caption, mode = "", href = "", color = null;
+  export let type = "button", mode = "", href = "", color = null;
 </script>
 
 
 {#if (href)}
-    <a {href}>{caption}</a>
+    <a {href}>
+        <slot/>
+    </a>
 {:else }
-    <button class="{mode} {color}" {type} on:click>{caption}</button>
+    <button class="{mode} {color}" {type} on:click>
+        <slot/>
+    </button>
 {/if}
 
 

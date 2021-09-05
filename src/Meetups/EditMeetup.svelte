@@ -65,7 +65,7 @@
             on:input={(evt) => (description = evt.target.value)}
     />
 
-    <Button type="submit" caption="Save"/>
+    <Button type="submit">Save</Button>
 </form>
 
 <style>

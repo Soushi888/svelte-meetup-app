@@ -27,15 +27,14 @@
         <p>{description}</p>
     </div>
     <footer>
-        <Button href="mailto:{contactEmail}" caption="Contact"/>
-        <Button
-                caption="{isFav ? 'Unfavorite' : 'Favorite'}"
-                mode="outline"
+        <Button href="mailto:{contactEmail}">Contact</Button>
+        <Button mode="outline"
                 color="{isFav ? null : 'success'}"
-                on:click={() => dispatch("togglefavorite", id)}
-        />
+                on:click={() => dispatch("togglefavorite", id)}>
+            {isFav ? 'Unfavorite' : 'Favorite'}
+        </Button>
 
-        <Button caption="Show Details"/>
+        <Button>Show Details</Button>
     </footer>
 </article>
 
@@ -73,7 +72,7 @@
     }
 
     h1.is-favorite {
-       color: #01a129;
+        color: #01a129;
     }
 
     h2 {

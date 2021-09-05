@@ -9,7 +9,8 @@
   let errorMsg = "";
   let editMode = undefined;
 
-  function addMeetup() {
+  function addMeetup(evt) {
+    const {title, subtitle, imageUrl, description, address, email} = evt.detail;
     if (title && subtitle && description && imageUrl && address && email) {
       const newMeetup = {
         id: Math.random().toString(),
@@ -22,8 +23,7 @@
       };
       meetups = [newMeetup, ...meetups];
       errorMsg = "";
-
-      console.log(meetups);
+      editMode = null;
     } else {
       errorMsg = "Empty fields";
     }
@@ -43,10 +43,12 @@
 <Header/>
 
 <main>
-    <Button caption="New Meetup" on:click={() => editMode = "add"}/>
+    <div class="meetup-controls">
+        <Button on:click={() => editMode = "add"}>New Meetup</Button>
+    </div>
 
     {#if (editMode === "add")}
-        <EditMeetup on:save={() => console.log("Save meetup event")}/>
+        <EditMeetup on:save={addMeetup}/>
     {/if}
 
     {#if errorMsg}
@@ -59,6 +61,10 @@
 <style>
     main {
         margin-top: 4.5rem;
+    }
+
+    .meetup-controls {
+        margin: 1rem;
     }
 
     .error {
