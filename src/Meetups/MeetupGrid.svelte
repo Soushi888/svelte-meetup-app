@@ -4,10 +4,9 @@
   export let meetups;
 </script>
 
-
 <section class="meetups">
     {#each meetups as meetup (meetup.id)}
-        <MeetupItem data={meetup}/>
+        <MeetupItem id={meetup.id} data={meetup} isFav={meetup.isFavorite} on:togglefavorite/>
     {/each}
 </section>
 

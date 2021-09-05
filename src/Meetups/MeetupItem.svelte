@@ -1,8 +1,12 @@
 <script>
+  import {createEventDispatcher} from "svelte";
   import Button from "../UI/Button.svelte";
 
-  export let data;
-  const {title, subtitle, imageUrl, description, address, contactEmail} = data;
+  export let id, data, isFav;
+  const {title, subtitle, imageUrl, description, address, contactEmail} =
+    data;
+
+  const dispatch = createEventDispatcher();
 </script>
 
 <article>
@@ -12,14 +16,19 @@
         <p class="address">Address : {address}</p>
     </header>
     <div class="image">
-        <img src="{imageUrl}" alt="{title}"/>
+        <img src={imageUrl} alt={title}/>
     </div>
     <div class="content">
         <p>{description}</p>
     </div>
     <footer>
         <Button href="mailto:{contactEmail}" caption="Contact"/>
-        <Button caption="Favorite" mode="outline"/>
+        <Button
+                caption="{isFav ? 'Unfavorite' : 'Favorite'}"
+                mode="outline"
+                on:click={() => dispatch("togglefavorite", id)}
+        />
+
         <Button caption="Show Details"/>
     </footer>
 </article>
