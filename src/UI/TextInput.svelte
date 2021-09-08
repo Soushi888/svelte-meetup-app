@@ -1,18 +1,28 @@
 <script>
-  export let controlType = "input", type = "text", id, label, rows = 3, value;
+  export let controlType = "input",
+    type = "text",
+    id,
+    label,
+    rows = 3,
+    value,
+    valid = true,
+    validityMessage = "";
 
+  let touched = false;
 </script>
 
-
 <div class="form-control">
-    <label for="{id}">{label}</label>
-    {#if (controlType === "textarea")}
-        <textarea id="{id}" rows="{rows}" on:input>{value}</textarea>
-    {:else }
-        <input type={type} id="{id}" value={value} on:input>
+    <label for={id}>{label}</label>
+    {#if controlType === "textarea"}
+        <textarea class:invalid={!valid && touched} {id} {rows} bind:value
+                  on:blur={() => touched = true}></textarea>
+    {:else}
+        <input class:invalid={!valid && touched} {type} {id} {value} on:input on:blur={() => touched = true}/>
+    {/if}
+    {#if validityMessage && !valid && touched}
+        <p class="error-message">{validityMessage}</p>
     {/if}
 </div>
-
 
 <style>
     input,
@@ -43,6 +53,16 @@
     .form-control {
         padding: 0.5rem 0;
         width: 100%;
+        margin: 0.25rem 0;
+    }
+
+    .invalid {
+        border-color: red;
+        background: #fd7a7a;
+    }
+
+    .error-message {
+        color: red;
         margin: 0.25rem 0;
     }
 </style>

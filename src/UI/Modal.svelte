@@ -8,7 +8,13 @@
   function closeModal() {
     dispatch('cancel');
   }
+
+  function closeWithKeyDown(evt) {
+    if (evt.key === "Escape") closeModal();
+  }
 </script>
+
+<svelte:window on:keydown={closeWithKeyDown}/>
 
 <div class="modal-backdrop" on:click={closeModal}></div>
 <div class="modal">

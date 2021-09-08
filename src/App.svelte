@@ -6,27 +6,22 @@
   import {data} from "./data";
 
   let meetups = data;
-  let errorMsg = "";
   let editMode = undefined;
 
   function addMeetup(evt) {
-    const {title, subtitle, imageUrl, description, address, email} = evt.detail;
-    if (title && subtitle && description && imageUrl && address && email) {
-      const newMeetup = {
-        id: Math.random().toString(),
-        title,
-        subtitle,
-        description,
-        imageUrl,
-        address,
-        contactEmail: email,
-      };
-      meetups = [newMeetup, ...meetups];
-      errorMsg = "";
-      editMode = null;
-    } else {
-      errorMsg = "Empty fields";
-    }
+    const {title, subtitle, imageUrl, description, address, email} =
+      evt.detail;
+    const newMeetup = {
+      id: Math.random().toString(),
+      title,
+      subtitle,
+      description,
+      imageUrl,
+      address,
+      contactEmail: email,
+    };
+    meetups = [newMeetup, ...meetups];
+    editMode = null;
   }
 
   function toggleFavorite(evt) {
@@ -48,15 +43,11 @@
 
 <main>
     <div class="meetup-controls">
-        <Button on:click={() => editMode = "add"}>New Meetup</Button>
+        <Button on:click={() => (editMode = "add")}>New Meetup</Button>
     </div>
 
-    {#if (editMode === "add")}
-        <EditMeetup on:save={addMeetup} on:cancel={cancelEdit}>
-            {#if errorMsg}
-                <p class="error">{errorMsg}</p>
-            {/if}
-        </EditMeetup>
+    {#if editMode === "add"}
+        <EditMeetup on:save={addMeetup} on:cancel={cancelEdit}/>
     {/if}
 
     <MeetupGrid {meetups} on:togglefavorite={toggleFavorite}/>
