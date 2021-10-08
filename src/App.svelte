@@ -1,37 +1,31 @@
 <script>
+  import meetups from "./Meetups/meetups.store";
+
   import Header from "./UI/Header.svelte";
   import MeetupGrid from "./Meetups/MeetupGrid.svelte";
   import EditMeetup from "./Meetups/EditMeetup.svelte";
   import Button from "./UI/Button.svelte";
-  import {data} from "./data";
 
-  let meetups = data;
   let editMode = undefined;
 
   function addMeetup(evt) {
     const {title, subtitle, imageUrl, description, address, email} =
       evt.detail;
-    const newMeetup = {
-      id: Math.random().toString(),
+
+    meetups.addMeetup({
       title,
       subtitle,
       description,
       imageUrl,
       address,
       contactEmail: email,
-    };
-    meetups = [newMeetup, ...meetups];
+    });
     editMode = null;
   }
 
   function toggleFavorite(evt) {
     const id = evt.detail;
-    const updatedMeetup = {...meetups.find((m) => m.id === id)};
-    updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
-    const meetupIndex = meetups.findIndex((m) => m.id === id);
-    const updatedMeetups = [...meetups];
-    updatedMeetups[meetupIndex] = updatedMeetup;
-    meetups = updatedMeetups;
+    meetups.toggleFavorite(id);
   }
 
   function cancelEdit() {
@@ -50,7 +44,7 @@
         <EditMeetup on:save={addMeetup} on:cancel={cancelEdit}/>
     {/if}
 
-    <MeetupGrid {meetups} on:togglefavorite={toggleFavorite}/>
+    <MeetupGrid meetups={$meetups} on:togglefavorite={toggleFavorite}/>
 </main>
 
 <style>

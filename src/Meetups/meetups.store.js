@@ -1,4 +1,6 @@
-export let data = [
+import {writable} from "svelte/store";
+
+export const meetups = writable([
   {
     id: "m1",
     title: "Coding Bootcamp",
@@ -17,4 +19,31 @@ export let data = [
     address: "4270 rue Saint-Zotique Est, Montreal, Quebec, Canada, H1T 1L1",
     contactEmail: 'swim@test.com'
   }
-]
+])
+
+const customMeetupsStore = {
+  subscribe: meetups.subscribe,
+  addMeetup: (meetupData) => {
+    const newMeetup = {
+      ...meetupData, id: Math.random().toString(),
+      isFavorite: false
+    };
+
+    meetups.update(items => {
+      return [newMeetup, ...items]
+    })
+  },
+  toggleFavorite: id => {
+    meetups.update(items => {
+      const updatedMeetup = {...items.find((i) => i.id === id)};
+      updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
+      const meetupIndex = items.findIndex((i) => i.id === id);
+      const updatedMeetups = [...items];
+      updatedMeetups[meetupIndex] = updatedMeetup;
+
+      return updatedMeetups;
+    })
+  },
+}
+
+export default customMeetupsStore;
