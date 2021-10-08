@@ -11,24 +11,25 @@
   let selectedMeetup;
 
   const unsubscribe = meetups.subscribe((items => {
-    selectedMeetup = items.find(i => i.id === id)
+    selectedMeetup = items.find(i => i.id === id);
+    console.log(selectedMeetup);
   }));
 
-  console.log(selectedMeetup)
+  const {title, subtitle, description, contactEmail, imageUrl} = selectedMeetup;
 
   onDestroy(() => unsubscribe())
 </script>
 
 <section>
     <div class="image">
-        <img src="{selectedMeetup.imageUrl}" alt="{selectedMeetup.title}">
+        <img src="{imageUrl}" alt="{title}">
     </div>
 
     <div class="content">
-        <h1>{selectedMeetup.title}</h1>
-        <h2>{selectedMeetup.subtitle}</h2>
-        <p>{selectedMeetup.description}</p>
-        <Button href="mailto:{selectedMeetup.contactEmail}">Contact</Button>
+        <h1>{title}</h1>
+        <h2>{subtitle}</h2>
+        <p>{description}</p>
+        <Button href="mailto:{contactEmail}">Contact</Button>
         <Button mode="outline" on:click={() => dispatch('close')}>Close</Button>
     </div>
 </section>

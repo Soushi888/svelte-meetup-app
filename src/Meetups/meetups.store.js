@@ -35,6 +35,9 @@ const customMeetupsStore = {
       return [newMeetup, ...items]
     })
   },
+  updateMeetup: (id, meetupData) => {
+
+    },
   toggleFavorite: id => {
     meetups.update(items => {
       const updatedMeetup = {...items.find((i) => i.id === id)};

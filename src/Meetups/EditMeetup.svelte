@@ -10,12 +10,23 @@
 
   const dispatch = createEventDispatcher();
 
+  export let id = null;
+
   let title = "",
     subtitle = "",
     description = "",
     imageUrl = "",
     address = "",
     email = "";
+
+  if (id) {
+    let selectedMeetup;
+    const unsubscribe = meetups.subscribe(items => {
+      selectedMeetup = items.find(i => i.id === id)
+    })
+    let {title, subtitle, description, imageUrl, address, contactEmail: email} = selectedMeetup;
+    unsubscribe();
+  }
 
   let titleValid, subtitleValid, descriptionValid, imageUrlValid, addressValid, emailValid, formIsValid;
 
@@ -28,14 +39,21 @@
   $: formIsValid = titleValid && subtitleValid && descriptionValid && imageUrlValid && addressValid && emailValid;
 
   function submitForm() {
-    meetups.addMeetup({
+    const newMeetup = {
       title,
       subtitle,
       description,
       imageUrl,
       address,
       contactEmail: email,
-    });
+    };
+
+    if (id) {
+      meetups.updateMeetup(id, newMeetup)
+    } else {
+      meetups.addMeetup(newMeetup);
+    }
+
     dispatch('save')
   }
 
