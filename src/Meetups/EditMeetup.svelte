@@ -2,18 +2,22 @@
   import {createEventDispatcher} from "svelte";
   import {isNotEmpty, isValidEmail, isValidUrl} from "../util/validation";
 
+  import meetups from "./meetups.store";
+
   import TextInput from "../UI/TextInput.svelte";
   import Button from "../UI/Button.svelte";
   import Modal from "../UI/Modal.svelte";
 
   const dispatch = createEventDispatcher();
 
-  let title = "";
-  let subtitle = "";
-  let description = "";
-  let imageUrl = "";
-  let address = "";
-  let email = "";
+  let title = "",
+    subtitle = "",
+    description = "",
+    imageUrl = "",
+    address = "",
+    email = "";
+
+  let titleValid, subtitleValid, descriptionValid, imageUrlValid, addressValid, emailValid, formIsValid;
 
   $: titleValid = isNotEmpty(title);
   $: subtitleValid = isNotEmpty(subtitle);
@@ -24,19 +28,21 @@
   $: formIsValid = titleValid && subtitleValid && descriptionValid && imageUrlValid && addressValid && emailValid;
 
   function submitForm() {
-    dispatch("save", {
+    meetups.addMeetup({
       title,
       subtitle,
       description,
       imageUrl,
       address,
-      email,
+      contactEmail: email,
     });
+    dispatch('save')
   }
 
   function cancel() {
     dispatch("cancel");
   }
+
 </script>
 
 <Modal title="Edit Meetup" on:cancel>

@@ -6,7 +6,7 @@
 
 <section class="meetups">
     {#each meetups as meetup (meetup.id)}
-        <MeetupItem id={meetup.id} data={meetup} isFav={meetup.isFavorite} on:togglefavorite/>
+        <MeetupItem id={meetup.id} data={meetup}/>
     {/each}
 </section>
 
