@@ -1,36 +1,35 @@
 <script>
-  import meetups from "./meetups.store";
-  import {createEventDispatcher, onDestroy} from "svelte";
-
+  import {onDestroy, createEventDispatcher} from "svelte";
+  import meetups from "./meetups.store.js";
   import Button from "../UI/Button.svelte";
 
   export let id;
 
-  const dispatch = createEventDispatcher();
-
   let selectedMeetup;
 
-  const unsubscribe = meetups.subscribe((items => {
+  const unsubscribe = meetups.subscribe(items => {
     selectedMeetup = items.find(i => i.id === id);
-    console.log(selectedMeetup);
-  }));
+  });
 
-  const {title, subtitle, description, contactEmail, imageUrl} = selectedMeetup;
+  const dispatch = createEventDispatcher();
 
-  onDestroy(() => unsubscribe())
+  onDestroy(() => {
+    unsubscribe();
+  });
 </script>
 
 <section>
     <div class="image">
-        <img src="{imageUrl}" alt="{title}">
+        <img src={selectedMeetup.imageUrl} alt={selectedMeetup.title}/>
     </div>
-
     <div class="content">
-        <h1>{title}</h1>
-        <h2>{subtitle}</h2>
-        <p>{description}</p>
-        <Button href="mailto:{contactEmail}">Contact</Button>
-        <Button mode="outline" on:click={() => dispatch('close')}>Close</Button>
+        <h1>{selectedMeetup.title}</h1>
+        <h2>{selectedMeetup.subtitle} - {selectedMeetup.address}</h2>
+        <p>{selectedMeetup.description}</p>
+        <Button href="mailto:{selectedMeetup.contactEmail}">Contact</Button>
+        <Button type="button" mode="outline" on:click={() => dispatch('close')}>
+            Close
+        </Button>
     </div>
 </section>
 
@@ -62,7 +61,7 @@
 
     h1 {
         font-size: 2rem;
-        font-family: 'Roboto Slab', sans-serif;
+        font-family: "Roboto Slab", sans-serif;
         margin: 0.5rem 0;
     }
 
@@ -75,3 +74,4 @@
         font-size: 1.5rem;
     }
 </style>
+
